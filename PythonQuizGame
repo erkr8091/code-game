@@ -1,0 +1,243 @@
+import pygame
+import time
+
+pygame.init()
+
+win = pygame.display.set_mode((400,700)) #create window
+run = True
+wcolor = (255,255,255)
+color = (209,213,220)
+score = 0
+answers = 0
+
+#loads the text sound
+pygame.mixer.music.load('Whoosh.wav')
+
+class Text(pygame.sprite.Sprite):
+  def __init__(self,image_file,location):
+    pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+    self.image = pygame.image.load(image_file)
+    self.rect = self.image.get_rect()
+    self.rect.left, self.rect.top = location
+
+class Ans(pygame.sprite.Sprite):
+  def __init__(self,image_file,location):
+    pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+    self.image = pygame.image.load(image_file)
+    self.rect = self.image.get_rect()
+    self.rect.left, self.rect.top = location
+
+
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+        
+bg = Background('finalBG.jpg',[0,0])
+
+names = ['human.png','pineapple.png','rats.png','root.png','hulk.png','Stacy.png','trains.png','shower.png','Titanic.png','pandemic.png','robit.png','lizard.png','xenomorph.png','alien.png','hAnswer.png']
+
+YesText = Ans('yes.png',[325,345])
+NoText = Ans('no.png',[325,345])
+
+#sets up variables to use for button dimensions
+x1 = 198
+x2 = 80
+x3 = 60
+x4 = 257
+x5 = 315
+y1 = 485
+y2 = 538
+y3 = 590
+l = 35
+w = 50
+
+#creates the rects that will be used for collision detection with the mouse
+Y = pygame.Rect(x1,y1,l,w)
+E = pygame.Rect(x2,y1,l,w)
+S = pygame.Rect(x3,y2,l,w)
+N = pygame.Rect(x4,y3,l,w)
+O = pygame.Rect(x5,y1,l,w)
+Next = pygame.Rect(343,407,30,30)
+
+#sets up bools to use in submitting an answer
+yHit = False
+eHit = False
+sHit = False
+nHit = False
+oHit = False
+
+while run:
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            run = False
+                        
+    win.fill(wcolor)
+    win.blit(bg.image,bg.rect)
+  
+    if answers == 0:
+      image = Text(names[0],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 1:
+      image = Text(names[1],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 2:
+      image = Text(names[2],[14,105])
+      win.blit(image.image,image.rect)
+   
+    if answers == 3:
+      image = Text(names[3],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 4:
+      image = Text(names[4],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 5:
+      image = Text(names[5],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 6:
+      image = Text(names[6],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 7:
+      image = Text(names[7],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 7:
+      image = Text(names[7],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 8:
+      image = Text(names[8],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 9:
+      image = Text(names[9],[14,105])
+      win.blit(image.image,image.rect)
+
+    if answers == 10:
+      if score == -10 :
+            image = Text(names[10],[14,105])
+            win.blit(image.image,image.rect)
+
+      if score > -10 and score <= -5 :
+            image = Text(names[11],[14,105])
+            win.blit(image.image,image.rect)
+
+      if score > -5 and score <= 0:
+            image = Text(names[12],[14,105])
+            win.blit(image.image,image.rect)
+            
+      if score > 0 and score <= 8:
+            image = Text(names[13],[14,105])
+            win.blit(image.image,image.rect)
+      
+      if score > 8:
+            image = Text(names[14],[14,105])
+            win.blit(image.image,image.rect)
+
+    #codes the mouse's position as x and y coordinates to use for collision
+    pos = pygame.mouse.get_pos()
+      
+    #tests to see if the mouse over the "Y" key, key changes color to indicate you are in the area            
+    if Y.collidepoint(pos[0],pos[1]):
+        pygame.draw.rect(win,color,(x1,y1,l,w))
+        #detects a click in the box and brightens the background
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            yHit = True
+            nHit = False
+            oHit = False
+            time.sleep(0.1)
+
+    #tests to see if the mouse over the "E" key, key changes color to indicate you are in the area            
+    elif E.collidepoint(pos[0],pos[1]):
+        #detects a click in the box and registers you hit the key
+        #negates the other selection if it has been accidentally hit
+        pygame.draw.rect(win,color,(x2,y1,l,w))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            eHit = True
+            nHit = False
+            oHit = False
+            time.sleep(0.1)
+
+    #tests to see if the mouse over the "S" key, key changes color to indicate you are in the area                    
+    elif S.collidepoint(pos[0],pos[1]):
+        #detects a click in the box and registers you hit the key
+        #negates the other selection if it has been accidentally hit
+        pygame.draw.rect(win,color,(x3,y2,l,w))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            sHit = True
+            nHit = False
+            oHit = False
+            time.sleep(0.1)
+    
+    #tests to see if the mouse over the "N" key, key changes color to indicate you are in the area            
+    elif N.collidepoint(pos[0],pos[1]):
+        #detects a click in the box and registers you hit the key
+        #negates the other selection if it has been accidentally hit
+        pygame.draw.rect(win,color,(x4,y3,l,w))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            nHit = True
+            yHit = False
+            eHit = False
+            sHit = False
+            time.sleep(0.1)
+
+    #tests to see if the mouse over the "O" key, key changes color to indicate you are in the area                
+    elif O.collidepoint(pos[0],pos[1]):
+        #detects a click in the box and registers you hit the key
+        #negates the other selection if it has been accidentally hit
+        pygame.draw.rect(win,color,(x5,y1,l,w))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            oHit = True
+            yHit = False
+            eHit = False
+            sHit = False
+            time.sleep(0.1)
+    #tests to see if the mouse is over the send button, button changes color to idicate you are in the area
+    elif Next.collidepoint(pos[0],pos[1]):
+        if answers < 10:
+            if nHit and oHit:
+                win.blit(NoText.image,NoText.rect)
+    
+            elif yHit and eHit and sHit:
+                win.blit(YesText.image,YesText.rect)
+    
+            #detects a click in the circle, registers you answered the question to move on to the next, alters your score based on your response
+            pygame.draw.circle(win,(96,171,255),(358,422),15)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+              
+              pygame.mixer.music.play(0)
+
+              if nHit and oHit:
+                if answers < 5:
+                  score -= 1
+                else:
+                  score += 1
+                answers += 1
+    
+              elif yHit and eHit and sHit:
+                if answers < 5:  
+                  score += 1
+                else:
+                  score -= 1
+                answers += 1
+                  
+              yHit = False
+              eHit = False
+              sHit = False
+              nHit = False
+              oHit = False
+    
+              print(score)
+              time.sleep(0.3)
+
+    pygame.display.update()
